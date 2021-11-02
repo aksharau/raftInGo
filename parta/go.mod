@@ -1,4 +1,4 @@
-module https://github.com/aksharau/raftInGo
+module github.com/aksharau/raftInGo
 
 go 1.17
 
