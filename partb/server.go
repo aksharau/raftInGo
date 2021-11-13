@@ -17,7 +17,7 @@ type Server struct {
 
 	peerIds []int
 
-	cm       *ConsensusModule
+	cm       *ConsensusModule1
 	rpcProxy *RPCProxy
 
 	rpcServer *rpc.Server
@@ -46,11 +46,11 @@ func NewServer(serverId int, peerIds []int, ready <-chan interface{}) *Server {
 
 func (s *Server) Serve() {
 	s.mu.Lock()
-	s.cm = NewConsensusModule(s.serverId, s.peerIds, s, s.ready)
+	s.cm = NewConsensusModule1(s.serverId, s.peerIds, s, s.ready)
 
 	s.rpcServer = rpc.NewServer()
 	s.rpcProxy = &RPCProxy{cm: s.cm}
-	s.rpcServer.RegisterName("ConsensusModule", s.rpcProxy)
+	s.rpcServer.RegisterName("ConsensusModule1", s.rpcProxy)
 
 	var err error
 
@@ -143,7 +143,7 @@ func (s *Server) Call(id int, serviceMethod string, args interface{}, reply inte
 }
 
 type RPCProxy struct {
-	cm *ConsensusModule
+	cm *ConsensusModule1
 }
 
 func (rpp *RPCProxy) RequestVote(args RequestVoteArgs, reply *RequestVoteReply) error {

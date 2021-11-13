@@ -5,20 +5,18 @@ import (
 	"time"
 
 	"github.com/fortytw2/leaktest"
-
 )
 
-func TestElectionBasic( t *testing.T) {
-	h := NewHarness(t,3)
+func TestElectionBasic(t *testing.T) {
+	h := NewHarness(t, 3)
 	defer h.Shutdown()
 
 	h.CheckSingleLeader()
 }
 
+func TestElectionLeaderDisconnect(t *testing.T) {
 
-func TestElectionLeaderDisconnect( t *testing.T) {
-	
-	h := NewHarness(t,3)
+	h := NewHarness(t, 3)
 	defer h.Shutdown()
 
 	origLeaderId, origTerm := h.CheckSingleLeader()
@@ -34,7 +32,6 @@ func TestElectionLeaderDisconnect( t *testing.T) {
 	if newTerm <= origTerm {
 		t.Errorf("want newTerm <= origTerm, got %d and %d", newTerm, origTerm)
 	}
-
 
 }
 
@@ -52,7 +49,7 @@ func TestElectionLeaderAndAnotherDisconnect(t *testing.T) {
 	sleepMs(450)
 	h.CheckNoLeader()
 
-	// Reconnect one other server; now we'll have quorum.
+	// Reconnect one other Server1; now we'll have quorum.
 	h.ReconnectPeer(otherId)
 	h.CheckSingleLeader()
 }
@@ -62,20 +59,19 @@ func TestDisconnectAllThenRestore(t *testing.T) {
 	defer h.Shutdown()
 
 	sleepMs(100)
-	//	Disconnect all servers from the start. There will be no leader.
+	//	Disconnect all Server1s from the start. There will be no leader.
 	for i := 0; i < 3; i++ {
 		h.DisconnectPeer(i)
 	}
 	sleepMs(450)
 	h.CheckNoLeader()
 
-	// Reconnect all servers. A leader will be found.
+	// Reconnect all Server1s. A leader will be found.
 	for i := 0; i < 3; i++ {
 		h.ReconnectPeer(i)
 	}
 	h.CheckSingleLeader()
 }
-
 
 func TestElectionLeaderDisconnectThenReconnect(t *testing.T) {
 	h := NewHarness(t, 3)
@@ -171,5 +167,3 @@ func TestElectionDisconnectLoop(t *testing.T) {
 		sleepMs(150)
 	}
 }
-
-

@@ -1,4 +1,4 @@
-module github.com/aksharau/raftInGo
+module github.com/aksharau/raftInGo/partb
 
 go 1.17
 

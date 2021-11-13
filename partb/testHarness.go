@@ -13,7 +13,7 @@ func init() {
 }
 
 type Harness struct {
-	cluster   []*Server
+	cluster   []*Server1
 	connected []bool
 	n         int
 	t         *testing.T
@@ -21,7 +21,7 @@ type Harness struct {
 
 func NewHarness(t *testing.T, n int) *Harness {
 
-	ns := make([]*Server, n)
+	ns := make([]*Server1, n)
 	connected := make([]bool, n)
 
 	ready := make(chan interface{})
@@ -34,7 +34,7 @@ func NewHarness(t *testing.T, n int) *Harness {
 			}
 		}
 
-		ns[i] = NewServer(i, peerIds, ready)
+		ns[i] = NewServer1(i, peerIds, ready)
 		ns[i].Serve()
 	}
 
@@ -142,7 +142,7 @@ func (h *Harness) CheckNoLeader() {
 		if h.connected[i] {
 			_, _, isLeader := h.cluster[i].cm.Report()
 			if isLeader {
-				h.t.Fatalf("server %d leader; want none", i)
+				h.t.Fatalf("Server1 %d leader; want none", i)
 			}
 		}
 	}
