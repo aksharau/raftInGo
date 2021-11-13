@@ -260,7 +260,7 @@ func (cm *ConsensusModule) startElection() {
 			var reply RequestVoteReply
 			cm.dlog("sending RequestVote to %d: %+v", peerId, args)
 
-			if err := cm.server.Call(peerId, "ConsensusModule.RequestVote", args, &reply); err != nil {
+			if err := cm.server.Call(peerId, "ConsensusModule.RequestVote", args, &reply); err == nil {
 				cm.mu.Lock()
 				defer cm.mu.Unlock()
 				cm.dlog("received RequestVoteReply %+v", reply)
